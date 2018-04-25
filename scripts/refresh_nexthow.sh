@@ -64,7 +64,7 @@ my_log "Installing sshpass"
 sudo rpm -ivh https://fr2.rpmfind.net/linux/epel/7/x86_64/Packages/s/sshpass-1.06-1.el7.x86_64.rpm
 
 #unregister from PC
-ncli multicluster remove-from-multicluster external-ip-address-or-svm-ips=10.21.${MY_HPOC_NUMBER}.39 username=admin password='nutanix/4u' force=true
+ncli multicluster remove-from-multicluster external-ip-address-or-svm-ips=10.21.${MY_HPOC_NUMBER}.39 username="admin" password="${MY_PE_PASSWORD}" force=true
 
 #delete all VMs
 acli -y vm.delete \* delete_snapshots=true
@@ -116,18 +116,18 @@ curl -u admin:${MY_PE_PASSWORD} -k -H 'Content-Type: application/json' -X PUT \
 }'
 
 # Prism Central Download
-my_log "Download PC tarball from ${MY_PC_SRC_URL}"
-wget -nv ${MY_PC_SRC_URL}
-my_log "Download PC metadata JSON from ${MY_PC_META_URL}"
-wget -nv ${MY_PC_META_URL}
+#my_log "Download PC tarball from ${MY_PC_SRC_URL}"
+#wget -nv ${MY_PC_SRC_URL}
+#my_log "Download PC metadata JSON from ${MY_PC_META_URL}"
+#wget -nv ${MY_PC_META_URL}
 # Staging Prism Central
-my_log "Stage Prism Central"
-ncli software upload file-path=/home/nutanix/${MY_PC_SRC_URL##*/} meta-file-path=/home/nutanix/${MY_PC_META_URL##*/} software-type=PRISM_CENTRAL_DEPLOY
+#my_log "Stage Prism Central"
+#ncli software upload file-path=/home/nutanix/${MY_PC_SRC_URL##*/} meta-file-path=/home/nutanix/${MY_PC_META_URL##*/} software-type=PRISM_CENTRAL_DEPLOY
 # Freeing up space
-my_log "Delete PC sources to free some space"
-rm ${MY_PC_SRC_URL##*/} ${MY_PC_META_URL##*/}
+#my_log "Delete PC sources to free some space"
+#rm ${MY_PC_SRC_URL##*/} ${MY_PC_META_URL##*/}
 # Deploy Prism Central
-my_log "Deploy Prism Central"
+#my_log "Deploy Prism Central"
 # TODO: Parameterize DNS Servers & add secondary
 MY_DEPLOY_BODY=$(cat <<EOF
 {

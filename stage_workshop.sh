@@ -113,7 +113,7 @@ function stage_clusters {
     remote_exec "MY_PE_PASSWORD=${MY_PE_PASSWORD} nohup bash /home/nutanix/${PE_CONFIG} >> config.log 2>&1 &"
   done
 
-  echo "Progress of individual clusters can be monitored by SSHing to the cluster's virtual IP and running 'tail -f /home/nutanix/${PE_CONFIG}'."
+  echo "Progress of individual clusters can be monitored by SSHing to the cluster's virtual IP and running 'tail -f /home/nutanix/console.log'."
   exit
 }
 

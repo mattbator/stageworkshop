@@ -1,0 +1,33 @@
+PLEASE READ BEFORE PROCEEDING!
+
+This script should be run from a host on the corporate/lab network, such as a CentOS VM running on an HPOC cluster.
+
+Alternatively it can be run from a macOS host connected to the VPN. To run this script from macOS first install Homebrew (https://brew.sh) and then run the following:
+
+> brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
+
+All clusters must be Foundationed prior to Workshop staging. Clusters should be Foundationed according to the AOS/hypervisor versions defined in the Workshop - older or new versions may not function as expected.
+
+It is assumed that Prism 'admin' account, CVM 'nutanix' account, and AHV 'root' account share the same password.
+
+All input files must use the following format:
+
+<Nutanix Cluster #1 IP>|<Cluster #1 Password>
+<Nutanix Cluster #2 IP>|<Cluster #2 Password>
+...
+<Nutanix Cluster #N IP>|<Cluster #N Password>
+
+For example:
+10.21.1.37|nx2Tech123!
+10.21.7.37|nx2Tech517!
+10.21.55.37|nx2Tech666!
+
+If you encounter issues reach out to @matt on Slack.
+
+Interactive Usage:        stage_workshop
+Non-interactive Usage:    stage_workshop -f cluster_list_file -w workshop_number
+
+Available Workshops:
+1) Calm Introduction Workshop
+2) Citrix Desktop on AHV Workshop
+3) Tech Summit 2018

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 WORKSHOPS=("Calm Introduction Workshop" \
-#"Citrix Desktop on AHV Workshop" \
-#"Tech Summit 2018" \
+".NEXT 2018 Workshop" \
+"Refresh .NEXT 2018 Workshop" \
 "Change Cluster Input File" \
 "Quit")
 
@@ -39,16 +39,16 @@ function select_workshop {
       PC_CONFIG=stage_calmhow_pc.sh
       break
       ;;
-      #"Citrix Desktop on AHV Workshop")
-      #PE_CONFIG=stage_citrixhow.sh
-      #PC_CONFIG=stage_citrixhow_pc.sh
-      #break
-      #;;
-      #"Tech Summit 2018")
-      #PE_CONFIG=stage_ts18.sh
-      #PC_CONFIG=stage_ts18_pc.sh
-      #break
-      #;;
+      ".NEXT 2018 Workshop")
+      PE_CONFIG=stage_nexthow.sh
+      PC_CONFIG=stage_nexthow_pc.sh
+      break
+      ;;
+      "Refresh .NEXT 2018 Workshop")
+      PE_CONFIG=refresh_nexthow.sh
+      PC_CONFIG=stage_nexthow_pc.sh
+      break
+      ;;
       "Change Cluster Input File")
       get_file
       break
@@ -79,14 +79,14 @@ function set_workshop {
     PE_CONFIG=stage_calmhow.sh
     PC_CONFIG=stage_calmhow_pc.sh
     ;;
-    #"Citrix Desktop on AHV Workshop")
-    #PE_CONFIG=stage_citrixhow.sh
-    #PC_CONFIG=stage_citrixhow_pc.sh
-    #;;
-    #"Tech Summit 2018")
-    #PE_CONFIG=stage_ts18.sh
-    #PC_CONFIG=stage_ts18_pc.sh
-    #;;
+    ".NEXT 2018 Workshop")
+    PE_CONFIG=stage_nexthow.sh
+    PC_CONFIG=stage_nexthow_pc.sh
+    ;;
+    "Refresh .NEXT 2018 Workshop")
+    PE_CONFIG=refresh_nexthow.sh
+    PC_CONFIG=stage_nexthow_pc.sh
+    ;;
     *) echo "No one should ever see this. Time to panic.";;
   esac
 
@@ -126,6 +126,8 @@ Non-interactive Usage:    stage_workshop -f cluster_list_file -w workshop_number
 
 Available Workshops:
 1) Calm Introduction Workshop
+2) .NEXT 2018 Workshop
+3) Refresh .NEXT 2018 Workshop
 
 See README for more information :+1:
 

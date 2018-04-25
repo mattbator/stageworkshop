@@ -1,6 +1,6 @@
 PLEASE READ BEFORE PROCEEDING!
 
-This script should be run from a host on the corporate/lab network, such as a CentOS VM running on an HPOC cluster.
+This script should be run from a host on the corporate/lab network, such as a CentOS VM running on an HPOC cluster. You may need to 'chmod +x stage_workshop.sh' to run the script.
 
 Alternatively it can be run from a macOS host connected to the VPN. To run this script from macOS first install Homebrew (https://brew.sh) and then run the following:
 

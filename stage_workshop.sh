@@ -1,8 +1,8 @@
 #!/bin/bash
 
 WORKSHOPS=("Calm Introduction Workshop" \
-"Citrix Desktop on AHV Workshop" \
-"Tech Summit 2018" \
+#"Citrix Desktop on AHV Workshop" \
+#"Tech Summit 2018" \
 "Change Cluster Input File" \
 "Quit")
 

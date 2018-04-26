@@ -61,5 +61,5 @@ curl -u admin:${MY_PE_PASSWORD} -k -H 'Content-Type: application/json' -X PUT \
 #tar -xzf ${MY_PC_UPGRADE_URL##*/}
 #rm ${MY_PC_UPGRADE_URL##*/}
 
-my_log "Upgrade PC"
-cd /home/nutanix/install ; ./bin/cluster -i . -p upgrade
+#my_log "Upgrade PC"
+#cd /home/nutanix/install ; ./bin/cluster -i . -p upgrade

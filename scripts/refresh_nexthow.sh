@@ -35,8 +35,6 @@ MY_PRIMARY_NET_VLAN='0'
 MY_SECONDARY_NET_NAME='Secondary'
 MY_SECONDARY_NET_VLAN="${MY_HPOC_NUMBER}1"
 # NEED TO UPDATE THESE
-MY_PC_SRC_URL='http://download.nutanix.com/downloads/pc/one-click-pc-deployment/5.6/euphrates-5.6-stable-prism_central.tar'
-MY_PC_META_URL='http://download.nutanix.com/pc/one-click-pc-deployment/5.6/v1/euphrates-5.6-stable-prism_central_metadata.json'
 
 # From this point, we assume:
 # IP Range: 10.21.${MY_HPOC_NUMBER}.0/25
@@ -115,19 +113,6 @@ curl -u admin:${MY_PE_PASSWORD} -k -H 'Content-Type: application/json' -X PUT \
     "verbosityType": null
 }'
 
-# Prism Central Download
-#my_log "Download PC tarball from ${MY_PC_SRC_URL}"
-#wget -nv ${MY_PC_SRC_URL}
-#my_log "Download PC metadata JSON from ${MY_PC_META_URL}"
-#wget -nv ${MY_PC_META_URL}
-# Staging Prism Central
-#my_log "Stage Prism Central"
-#ncli software upload file-path=/home/nutanix/${MY_PC_SRC_URL##*/} meta-file-path=/home/nutanix/${MY_PC_META_URL##*/} software-type=PRISM_CENTRAL_DEPLOY
-# Freeing up space
-#my_log "Delete PC sources to free some space"
-#rm ${MY_PC_SRC_URL##*/} ${MY_PC_META_URL##*/}
-# Deploy Prism Central
-#my_log "Deploy Prism Central"
 # TODO: Parameterize DNS Servers & add secondary
 MY_DEPLOY_BODY=$(cat <<EOF
 {
@@ -158,10 +143,10 @@ curl -u admin:${MY_PE_PASSWORD} -k -H 'Content-Type: application/json' -X POST h
 my_log "Waiting for PC deployment to complete (Sleeping 15m)"
 sleep 900
 my_log "Sending PC configuration script"
-pc_send_file pcconfig.sh
+pc_send_file stage_nexthow_pc.sh
 # Execute that file asynchroneously remotely (script keeps running on CVM in the background)
 my_log "Launching PC configuration script"
-pc_remote_exec "MY_PE_PASSWORD=${MY_PE_PASSWORD} nohup bash /home/nutanix/pcconfig.sh >> pcconfig.log 2>&1 &"
+pc_remote_exec "MY_PE_PASSWORD=${MY_PE_PASSWORD} nohup bash /home/nutanix/stage_nexthow_pc.sh >> pcconfig.log 2>&1 &"
 my_log "Removing sshpass"
 sudo rpm -e sshpass
 my_log "PE Configuration complete"

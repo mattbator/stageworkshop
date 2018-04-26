@@ -88,12 +88,47 @@ my_log "Check if there is a container named ${MY_IMG_CONTAINER_NAME}, if not cre
 my_log "Set Data Services IP address to 10.21.${MY_HPOC_NUMBER}.38"
 ncli cluster edit-params external-data-services-ip-address=10.21.${MY_HPOC_NUMBER}.38
 # Importing images
-my_log "Importing AutoDC image"
-acli image.create AutoDC container="${MY_IMG_CONTAINER_NAME}" image_type=kDiskImage source_url=http://10.21.250.221/images/ahv/techsummit/AutoDC.qcow2 wait=true
-my_log "Importing CentOS image"
-acli image.create CentOS container="${MY_IMG_CONTAINER_NAME}" image_type=kDiskImage source_url=nfs://10.21.249.12/images/AHV/Linux/CentOSv2 wait=true
-my_log "Importing Windows2012 image"
-acli image.create Windows2012 container="${MY_IMG_CONTAINER_NAME}" image_type=kDiskImage source_url=nfs://10.21.249.12/images/AHV/Windows/Windows2012 wait=true
+MY_IMAGE="AutoDC"
+retries=1
+my_log "Importing ${MY_IMAGE} image"
+until [[ $(acli image.create ${MY_IMAGE} container="${MY_IMG_CONTAINER_NAME}" image_type=kDiskImage source_url=http://10.21.250.221/images/ahv/techsummit/AutoDC.qcow2 wait=true) =~ "complete" ]]; do
+  let retries++
+  if [ $retries -gt 5 ]; then
+    my_log "${MY_IMAGE} failed to upload after 5 attempts. This cluster may require manual remediation."
+    acli vm.create STAGING-FAILED-${MY_IMAGE}
+    break
+  fi
+  my_log "acli image.create ${MY_IMAGE} FAILED. Retrying upload (${retries} of 5)..."
+  sleep 5
+done
+
+MY_IMAGE="CentOS"
+retries=1
+my_log "Importing ${MY_IMAGE} image"
+until [[ $(acli image.create ${MY_IMAGE} container="${MY_IMG_CONTAINER_NAME}" image_type=kDiskImage source_url=nfs://10.21.249.12/images/AHV/Linux/CentOSv2 wait=true) =~ "complete" ]]; do
+  let retries++
+  if [ $retries -gt 5 ]; then
+    my_log "${MY_IMAGE} failed to upload after 5 attempts. This cluster may require manual remediation."
+    acli vm.create STAGING-FAILED-${MY_IMAGE}
+    break
+  fi
+  my_log "acli image.create ${MY_IMAGE} FAILED. Retrying upload (${retries} of 5)..."
+  sleep 5
+done
+
+MY_IMAGE="Windows2012"
+retries=1
+my_log "Importing ${MY_IMAGE} image"
+until [[ $(acli image.create ${MY_IMAGE} container="${MY_IMG_CONTAINER_NAME}" image_type=kDiskImage source_url=nfs://10.21.249.12/images/AHV/Windows/Windows2012 wait=true) =~ "complete" ]]; do
+  let retries++
+  if [ $retries -gt 5 ]; then
+    my_log "${MY_IMAGE} failed to upload after 5 attempts. This cluster may require manual remediation."
+    acli vm.create STAGING-FAILED-${MY_IMAGE}
+    break
+  fi
+  my_log "acli image.create ${MY_IMAGE} FAILED. Retrying upload (${retries} of 5)..."
+  sleep 5
+done
 # Remove existing VMs, if any
 my_log "Removing \"Windows 2012\" VM if it exists"
 acli -y vm.delete Windows\ 2012\ VM delete_snapshots=true

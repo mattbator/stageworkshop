@@ -182,6 +182,16 @@ ncli authconfig add-role-mapping role=ROLE_CLUSTER_ADMIN entity-type=group name=
 my_log "Creating Reverse Lookup Zone on DC VM"
 sshpass -p nutanix/4u ssh -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null \
 root@10.21.${MY_HPOC_NUMBER}.40 "samba-tool dns zonecreate dc1 ${MY_HPOC_NUMBER}.21.10.in-addr.arpa; service samba-ad-dc restart"
+
+# Create AFS Client VM
+my_log "Create AFSClient VM based on Windows2012 image"
+acli uhura.vm.create_with_customize AFSClient container=Default memory=4G num_cores_per_vcpu=1 num_vcpus=2 sysprep_config_path=https://raw.githubusercontent.com/mattbator/stageworkshop/master/unattend.xml
+acli vm.disk_create AFSClient cdrom=true empty=true
+acli vm.disk_create AFSClient clone_from_image=Windows2012
+acli vm.nic_create AFSClient network=${MY_PRIMARY_NET_NAME}
+my_log "Power on AFSClient VM"
+acli vm.on AFSClient
+
 # Get UUID from cluster
 my_log "Get UUIDs from cluster:"
 MY_NET_UUID=$(acli net.get ${MY_PRIMARY_NET_NAME} | grep "uuid" | cut -f 2 -d ':' | xargs)
